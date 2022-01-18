@@ -36,7 +36,8 @@ var activeSect = " ";
  * 
 */
 
-// Set sections as active
+// Set sections as active.  Highlights both the selected navagation link 
+// and the selected section in the body.
 
 function makeActive(el) {
 
@@ -49,6 +50,9 @@ function makeActive(el) {
 
  }
 
+ // Remove active classes from the previously selected navaigation link
+ // and also from the previously selection in the body.
+
 function removeActive() {
 
     let activeLink = document.getElementsByClassName(activeSect) [0]; 
@@ -58,6 +62,9 @@ function removeActive() {
     activeEl.classList.remove('section-active');
 
  }
+
+ // Scroll to anchor ID using scrollIntoView event.  Also, call functions to add active classes to the navigation link
+ // and the selected sections in the body. 
 
 function respondToClick(event) {
 
@@ -81,21 +88,26 @@ function respondToClick(event) {
 
  }
 
-//https://stackoverflow.com/questions/123999/how-can-i-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
+//https://knowledge.udacity.com/questions/85408
 
-function isElementInViewport (section) {
+function isElementInViewport(section) {
 
     var rect = section.getBoundingClientRect();
 
     return (
         rect.top >= 0 &&
         rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+        rect.top <= 150 &&
+        rect.bottom >= 150
     );
 }
 
+// When the selected section is in the viewport, add active classes to both the 
+// selected navigation link and selected section in the body.
+
 function respondToScroll(event) {
+
+// Bypass if triggered by the respondToClick scrollIntoView method    
 
     if (inClick) {
         return;
@@ -124,7 +136,7 @@ function respondToScroll(event) {
  * 
 */
 
-// build the nav
+// Dynamically create the navigation elements
 
 function buildNavBar() {
 
@@ -138,19 +150,13 @@ function buildNavBar() {
         let navItemLink = document.createElement('a');
         navItemLink.className = section.id + ' menu__link';
         // use the section data-nav to set the navItem title
-        navItemLink.textContent = section.dataset.nav;
+        navItemLink.innerHTML = section.dataset.nav;
         // append the link to the navItem
-        navItem.appendChild(navItemLink);
+        navItem.append(navItemLink);
         // append the link to the navbar
         navBar.appendChild(navItem);
     }
 }
-
-// Add class 'active' to section when near top of viewport
-
-
-// Scroll to anchor ID using scrollTO event
-
 
 /**
  * End Main Functions
@@ -166,6 +172,9 @@ buildNavBar();
 
 navBar.addEventListener('click', respondToClick);
 
+// Respond to Scroll Events
+
 window.addEventListener('scroll', respondToScroll);
 
+window.addEventListener('touchmove', respondToScroll);
 
