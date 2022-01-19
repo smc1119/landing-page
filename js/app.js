@@ -25,9 +25,9 @@
 
 const navBar= document.querySelector('#navbar__list');
 const sections = document.querySelectorAll('section');
-var sectIsActive = false;
-var inClick = false;
-var activeSect = " ";
+let sectIsActive = false;
+let inClick = false;
+let activeSect = ' ';
 
 
 /**
@@ -50,12 +50,12 @@ function makeActive(el) {
 
  }
 
- // Remove active classes from the previously selected navaigation link
+ // Remove active classes from the previously selected navigation link
  // and also from the previously selection in the body.
 
 function removeActive() {
 
-    let activeLink = document.getElementsByClassName(activeSect) [0]; 
+    const activeLink = document.getElementsByClassName(activeSect) [0]; 
     activeLink.classList.remove('active');       
 
     const activeEl = document.getElementById(activeSect);
@@ -72,7 +72,7 @@ function respondToClick(event) {
 
     event.preventDefault();
 
-    let el = document.getElementById(event.target.classList [0]);
+    const el = document.getElementById(event.target.classList [0]);
 
     if (sectIsActive) {
         removeActive();
@@ -82,7 +82,7 @@ function respondToClick(event) {
 
     makeActive(el);
 
-    el.scrollIntoView({behavior: "smooth"});
+    el.scrollIntoView({behavior: 'smooth'});
 
     inClick = false;
 
@@ -92,7 +92,7 @@ function respondToClick(event) {
 
 function isElementInViewport(section) {
 
-    var rect = section.getBoundingClientRect();
+    const rect = section.getBoundingClientRect();
 
     return (
         rect.top >= 0 &&
@@ -112,8 +112,6 @@ function respondToScroll(event) {
     if (inClick) {
         return;
     }
-
-    // https://knowledge.udacity.com/questions/85408
 
     for (let section of sections) {
 
